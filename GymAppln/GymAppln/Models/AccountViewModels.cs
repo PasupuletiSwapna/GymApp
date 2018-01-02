@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GymAppln.Models
 {
@@ -64,6 +66,26 @@ namespace GymAppln.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "FullName")]
+        public string FullName { get { return FirstName + " " + LastName; } }
+
+        [Required]
+        [Display(Name = "FirstName")]
+        [Column(TypeName = "datetime2")]
+        public DateTime TimeOfRegistration { get; set; }
+
+
+
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

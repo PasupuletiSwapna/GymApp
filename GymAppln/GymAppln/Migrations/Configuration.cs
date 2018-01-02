@@ -1,8 +1,14 @@
 namespace GymAppln.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
     using System;
     using System.Data.Entity;
+
+
     using System.Data.Entity.Migrations;
+
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<GymAppln.Models.ApplicationDbContext>
@@ -28,24 +34,21 @@ namespace GymAppln.Migrations
             //
 
 
-           // if(!context.Roles.Any(r=>r.Name=="admin"))
-           // {
-           //     var store=
+            if (!context.Users.Any(r => r.UserName == "admin@GymBooking.se"))
+            {
+                var rRole = new RoleStore<IdentityRole>(context);
+                var rManager = new RoleManager<IdentityRole>(rRole);
 
+                var uStore = new UserStore<ApplicationUser>(context);
+                var uManager = new UserManager<ApplicationUser>(uStore);
 
-           // }
+                var user = new ApplicationUser { UserName = "admin@GymBooking.se" };
 
+                uManager.Create(user, "password");
+                rManager.Create(new IdentityRole { Name = "admin" });
+                uManager.AddToRole(user.Id, "admin");
 
-           //else  if(!context.Users.Any(u=>u.UserName=="admin@GymBooking.se"))
-           // {
-
-
-           // }
-
-
-            //context.Users.AddOrUpdate(r=>r.Name,new applica)
-
-
+                
 
 
 
@@ -53,6 +56,11 @@ namespace GymAppln.Migrations
 
 
 
+
+
+
+
+            }
         }
     }
 }
